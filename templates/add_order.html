@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Pesanan</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00796b;
+            margin-bottom: 30px;
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+            margin-top: 20px; /* Menambah margin atas untuk memberikan jarak ke bawah */
+            box-sizing: border-box; /* Membuat padding dan margin masuk dalam ukuran width */
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #00796b;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #00796b;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s; /* Efek perubahan warna border */
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #004d40;
+            outline: none; /* Hapus efek outline default */
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #00796b;
+            margin-bottom: 15px;
+            text-align: left;
+            width: 100%; /* Sesuaikan dengan lebar form */
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #00796b;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1.2em;
+            width: 100%; /* Sesuaikan dengan lebar form */
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            input[type="text"], input[type="number"] {
+                padding: 8px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 1em;
+            }
+
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Tambah Pesanan</h1>
+    <form action="/add_order" method="post">
+        <label for="customer_name">Nama Pelanggan:</label>
+        <input type="text" id="customer_name" name="customer_name" placeholder="Masukkan Nama Anda" required><br>
+
+        <h3>Menu Makanan</h3>
+        {% for item, price in food_items.items() %}
+        <label for="{{ item }}">{{ item }} (Rp {{ price }}):</label>
+        <input type="number" id="{{ item }}" name="{{ item }}" min="0" placeholder="Jumlah" /><br>
+        {% endfor %}
+
+        <h3>Menu Minuman</h3>
+        {% for item, price in drink_items.items() %}
+        <label for="{{ item }}">{{ item }} (Rp {{ price }}):</label>
+        <input type="number" id="{{ item }}" name="{{ item }}" min="0" placeholder="Jumlah" />
+        <label for="es_{{ item }}">Es (+Rp 1.000)</label>
+        <input type="checkbox" id="es_{{ item }}" name="{{ item }}_es" /><br>
+        {% endfor %}
+
+        <button type="submit">Tambah Pesanan</button>
+    </form>
+</body>
+</html>

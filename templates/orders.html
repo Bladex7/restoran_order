@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Pesanan</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Style */
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #0078d7;
+            color: #ffffff;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* Alternate Row Color */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #0078d7;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005a9e;
+        }
+
+        /* Form Styles */
+        form {
+            display: inline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table {
+                font-size: 16px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            button {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Daftar Pesanan</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Pelanggan</th>
+                <th>Menu</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>{{ order[3] }}</td>
+                <td>Rp {{ order[4] }}</td>
+                <td>{{ order[5] }}</td>
+                <td>
+                    <!-- Form untuk mengubah status pesanan -->
+                    <form action="/update_status/{{ order[0] }}" method="POST">
+                        <select name="status">
+                            <option value="pending" {% if order[5] == 'pending' %}selected{% endif %}>Sedang Diproses</option>
+                            <option value="completed" {% if order[5] == 'completed' %}selected{% endif %}>Selesai</option>
+                        </select>
+                        <button type="submit">Update Status</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/transaction_history"><button>Riwayat Transaksi</button></a>
+    <a href="/admin_dashboard"><button>Admin Dashboard</button></a>
+</body>
+</html>
